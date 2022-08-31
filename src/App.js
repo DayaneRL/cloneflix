@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Tmdb from './Tmdb';
 import Header from './components/Header';
+import FeaturedMovie from './components/FeaturedMovie';
+import MovieRow from './components/MovieRow';
 
 export default () => {
   const [movieList, setMovieList] = useState([]);
-  const [featureData, setFeatureData] = useState(null);
+  const [featuredData, setFeaturedData] = useState(null);
   const [blackHeader, setBlackHeader] = useState(false);
 
   useEffect(() => {
@@ -19,28 +21,60 @@ export default () => {
       let chosen = originals[0].items.results[randomChosen];
       let chosenInfo = await Tmdb.getMovieInfo(chosen.id, 'tv');
       console.log(chosenInfo);
-      setFeatureData(chosenInfo);
+      setFeaturedData(chosenInfo);
     }
 
     loadAll();
   }, []);
 
+  useEffect(() => {
+    const scrollListener = () => {
+      if(window.scrollY > 10){
+        setBlackHeader(true);
+      }else{
+        setBlackHeader(false);
+      }
+    }
+    window.addEventListener('scroll', scrollListener);
+
+    return () => {
+      window.removeEventListener('scroll', scrollListener);
+    }
+  }, [])
+
   return (
     <div className="page">
       <Header black={blackHeader}/>
-      
-      <br></br><br></br><br></br><br></br>
-      {movieList.map((movie, index) => (
-          <div key={index}>
-            <h3>{movie.title}</h3>
-            {movie.items.results.map((item, indexItem) => (
-              <div key={indexItem}>
-                {/* <img width="50px" height="100px" src={item.poster_path}/> */}
-                <p>{item.name}</p>
-              </div>
-            ))}
-          </div>
-      ))}
+
+      {featuredData && 
+        <FeaturedMovie item={featuredData}/>
+      }
+
+{/* REVER - NAO TA FUNCIONANDO */}
+      <div className="lists">
+        {movieList.map((item, key) => {
+          return(
+            <div key={key} >
+              <MovieRow title={item.title} items={item.items}/>
+            </div>
+          )
+        }
+        )}
+      </div>
+
+      <footer>
+        Developed by @ Dayane Lima <br/>
+        Direitos de imagem para Netflix <br/>
+        Dados pegos do site Themoviedb.org
+      </footer>
+
+      {movieList.length <= 0 && (
+        <div className='loading'>
+        <img src="https://media.wired.com/photos/592744d3f3e2356fd800bf00/master/w_2560%2Cc_limit/Netflix_LoadTime.gif"
+        alt="Carregando"/>
+        </div>
+      )}
+
     </div>
   );
 }

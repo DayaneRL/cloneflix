@@ -50,15 +50,9 @@ export default () => {
         <FeaturedMovie item={featuredData}/>
       }
 
-{/* REVER - NAO TA FUNCIONANDO */}
       <div className="lists">
-        {movieList.map((item, key) => {
-          return(
-            <div key={key} >
-              <MovieRow title={item.title} items={item.items}/>
-            </div>
-          )
-        }
+        {movieList.map((item, key) => 
+          <MovieRow  key={key} title={item.title} items={item.items}/>
         )}
       </div>
 
@@ -76,5 +70,5 @@ export default () => {
       )}
 
     </div>
-  );
+  )
 }

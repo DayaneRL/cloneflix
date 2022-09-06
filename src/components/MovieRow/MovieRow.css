@@ -37,10 +37,12 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.6);
+    /* background-color: rgba(0, 0, 0, 0.6); */
+    background-color: #ebebeb;
     cursor: pointer;
     opacity: 0;
     transition: all ease 0.2s;
+    margin-top: 60px;
 }
 
 .movieRow--left {
@@ -61,4 +63,23 @@
     .movieRow--right{
         opacity: 1;
     }
+}
+
+
+.anterior{
+    cursor: pointer;
+    border: 0;
+    width: 30px;
+    height: 30px;
+    background-image: url('../images/chevron-left.svg');
+    background-repeat: no-repeat, repeat;
+}
+
+.proximo{
+    cursor: pointer;
+    border: 0;
+    width: 30px;
+    height: 30px;
+    background-image: url('../images/chevron-right.svg');
+    background-repeat: no-repeat, repeat;
 }
